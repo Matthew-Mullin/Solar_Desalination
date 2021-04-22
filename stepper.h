@@ -1,6 +1,8 @@
+
+// Stepper motor for horizontal movement
 // Define pin connections & motor's steps per revolution
-const int dirPin = 2;
-const int stepPin = 3;
+const int dirPin = 7;
+const int stepPin = 8;
 const int stepsPerRevolution = 200;
 
 void setup()
