@@ -2,6 +2,9 @@
 #include "Wire.h"
 #include <Helios.h>
 #include "time.h"
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BNO055.h>
+#include <utility/imumaths.h>
 #include <Adafruit_MAX31865.h>
 //initialize objects
 Helios helios;
@@ -13,6 +16,11 @@ Adafruit_MAX31865 waterRTD = Adafruit_MAX31865(17, 13, 12, 14);
 // The 'nominal' 0-degrees-C resistance of the sensor
 // 100.0 for PT100, 1000.0 for PT1000
 #define RNOMINAL  1000.0
+/* Set the delay between fresh samples */
+#define BNO055_SAMPLERATE_DELAY_MS (100)
+// Check I2C device address and correct line below (by default address is 0x29 or 0x28)
+//                                   id, address
+Adafruit_BNO055 bno = Adafruit_BNO055(-1, 0x28)
 //variables
 const double latitude = 40.677160; //variable for latitude
 const double longitude = -73.676260; //variable for longitude
@@ -21,6 +29,13 @@ const long  gmtOffset_sec = -4*3600;
 const int   daylightOffset_sec = 0*3600;
 double dAzimuth;
 double dElevation;
+//pins
+const int valvePin;
+const int AzStepper1;
+const int AzStepper2;
+const int ElStepper 1;
+const int ElStepper 2;
+
 //wifi
 const char* ssid       = "nethear96";
 const char* password   = "shinyunicorn404";
@@ -40,6 +55,18 @@ void updateSolar() {
   Serial.println("Azimuth = " + dAzimuth + "; Elevation = " + dElevation);
 }
 
+void orientation(){
+  imu::Vector<3> euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
+  /* Display the floating point data */
+  Serial.print("X: ");
+  Serial.print(euler.x());
+  Serial.print(" Y: ");
+  Serial.print(euler.y());
+  Serial.print(" Z: ");
+  Serial.print(euler.z());
+  Serial.println("");
+}
+
 void setup() {
   Serial.begin(115200); //initializing serial communication
   //connect to WiFi for time
@@ -56,6 +83,22 @@ void setup() {
   //disconnect WiFi as it's no longer needed
   WiFi.disconnect(true);
   WiFi.mode(WIFI_OFF);
+  //initialize accelerometer:
+  /* Initialise the sensor */
+  if(!bno.begin())
+  {
+    /* There was a problem detecting the BNO055 ... check your connections */
+    Serial.print("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR!");
+    while(1);
+  }
+  delay(1000);
+  /* Display the current temperature */
+  int8_t temp = bno.getTemp();
+  Serial.print("Outside Temperature: ");
+  Serial.print(temp);
+  Serial.println(" C");
+  Serial.println("");
+  bno.setExtCrystalUse(true);
   // put your setup code here, to run once:
   //define pressure sensor 1
   //define pressure sensor 2
@@ -74,4 +117,6 @@ void loop() {
   updateSolar();
   egRTD.temperature(RNOMINAL, RREF); //read ethylene glycol temp
   waterRTD.temperature(RNOMINAL, RREF); //read water temp
+  orientation();
+  
 }
