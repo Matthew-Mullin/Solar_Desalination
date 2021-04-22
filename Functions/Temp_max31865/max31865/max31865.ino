@@ -17,9 +17,9 @@
 #include <Adafruit_MAX31865.h>
 
 // Use software SPI: CS, DI, DO, CLK
-//Adafruit_MAX31865 thermo = Adafruit_MAX31865(17, 13, 12, 14);
+Adafruit_MAX31865 thermo = Adafruit_MAX31865(15, 13, 12, 14);
 // use hardware SPI, just pass in the CS pin
-Adafruit_MAX31865 thermo = Adafruit_MAX31865(17);
+//Adafruit_MAX31865 thermo = Adafruit_MAX31865(17);
 
 // The value of the Rref resistor. Use 430.0 for PT100 and 4300.0 for PT1000
 #define RREF      4300.0
