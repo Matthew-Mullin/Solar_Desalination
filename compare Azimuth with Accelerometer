@@ -1,0 +1,25 @@
+// Get the azimuth, elevation of the solar position into x, y, z coordinate.
+//          Use the solar position code.
+// Also, get the position of the motoer using the accelerometer into x, y, z coordinate.
+//          Use the official accelerometer code.
+// Compare each x, y, z data.
+//          Compare function?? ex) https://stackoverflow.com/questions/48757614/comparing-strings-of-arduino-and-database
+//                            if (tag.equals(rfid)) //change here the UID of the card/cards that you want to give access
+//                               {
+//                                  Serial.print("Message : ");
+//                                  Serial.println("UID Found.");
+//                                  Serial.println();
+//                                  delay(3000);
+//                                  rStatus = 1;
+//                                  Serial.println("Please enter 4 digit PIN.");
+//                                }
+
+//                               else   {
+//                                        Serial.println(" Access denied");
+//                                        delay(3000);
+//                                        rStatus = 0;
+//                                       }
+//                                }
+// If all of the data are correspond, maintain the current position of the motor.
+
+// If not, move the motor untill having the same position with the sun.
