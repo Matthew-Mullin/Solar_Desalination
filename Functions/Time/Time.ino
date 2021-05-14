@@ -2,11 +2,11 @@
 #include <WiFi.h>
 #include "time.h"
 //Variables
-const char* ssid       = "nethear96";
+const char* ssid       = "nethear96_EXT";
 const char* password   = "shinyunicorn404";
 
 const char* ntpServer = "pool.ntp.org";
-const long  gmtOffset_sec = -4*3600;
+const long  gmtOffset_sec = -0*3600;
 const int   daylightOffset_sec = 0*3600;
 
 void printLocalTime()
